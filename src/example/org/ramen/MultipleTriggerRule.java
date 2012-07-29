@@ -17,7 +17,9 @@ public class MultipleTriggerRule {
 		context.add("person", john);
 		context.add("person", anna);
 
-		Rule testStudent = new MVELRule("Test Student").on("person p1", "person p2").when("true")
+		Rule testStudent = new MVELRule("Test Student")
+				.on("person p1", "person p2")
+				.when("true")
 				.then("System.out.print(p1.name);System.out.print(\" - \");System.out.println(p2.name)");
 
 		RuleEngine engine = new InMemoryRuleEngine();

@@ -1,0 +1,44 @@
+<project name="ramen" default="jar" basedir=".">
+
+	<property name="name" value="ramen" />
+	<property name="projname" value="ramen" />
+	<property name="version" value="0.1" />
+
+	<property name="src" location="src" />
+	<property name="lib" location="lib" />
+	<property name="build.classes" location="build/classes" />
+
+	<path id="lib.classpath">
+		<fileset dir="${lib}" includes="**/*.jar" />
+	</path>
+
+	<target name="compile">
+		<mkdir dir="${build.classes}" />
+		<javac destdir="${build.classes}" classpathref="lib.classpath" debug="true">
+			<src path="${src}" />
+		</javac>
+	</target>
+
+	<target name="jar" depends="compile">
+		<jar destfile="${projname}-${version}.jar">
+			<fileset dir="${build.classes}">
+				<include name="org/**/*.class" />
+				<exclude name="example/**/*.class" />
+			</fileset>
+
+			<manifest>
+				<attribute name="Specification-Title" value="${name}" />
+				<attribute name="Specification-Version" value="${version}" />
+				<attribute name="Implementation-Title" value="${name}" />
+				<attribute name="Implementation-Version" value="${version}" />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="clean">
+		<delete dir="${build.classes}" />
+	</target>
+
+	<target name="all" depends="clean, compile, jar" />
+
+</project>
