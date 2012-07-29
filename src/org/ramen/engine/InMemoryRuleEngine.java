@@ -17,52 +17,26 @@ public class InMemoryRuleEngine implements RuleEngine {
 		ruleList = new LinkedList<Rule>();
 	}
 
-	public void add( Rule rule ) {
-		ruleList.add( rule );
-	}
-
-	public boolean evalOld( Context context ) {
-		for( Rule rule : ruleList ) {
-			Object container = null; //context.get( rule.trigger() );
-			Collection<Object> args;
-			if( container instanceof Collection ) {
-				args = (Collection<Object>) container;
-			} else {
-				args = new LinkedList<Object>();
-				args.add( container );
-			}
-
-			// try to apply this rule to each element in the trigger list in this context
-			for( Object arg : args ) {
-				if( rule.alias() != null && ! rule.alias().equals( "" ) )
-					context.set( rule.alias(), arg );
-
-				rule.eval( context );
-
-				if( rule.alias() != null && ! rule.alias().equals( "" ) )
-					context.remove( rule.alias() );
-			}
-		}
-
-		return true;
+	public void add(final Rule rule) {
+		ruleList.add(rule);
 	}
 
 	@Override
-	public boolean eval( Context context ) {
+	public boolean eval(Context context) {
 		boolean atLeastOneRuleFire = true;
 
-		while( atLeastOneRuleFire ) {
-			System.out.println( "[ENGINE] Executing a loop on all rule" );
-			
-			atLeastOneRuleFire = false;
-			
-			for( Rule rule : ruleList ) {
-				LinkedList<Entry<String, String>> triggers = new LinkedList<Entry<String,String>>();
-				triggers.addAll( rule.trigger().entrySet() );
+		while (atLeastOneRuleFire) {
+			System.out.println("[ENGINE] Executing a loop on all rule");
 
-				boolean fired = iterateTrigger( rule, triggers, context );
-				
-				if( fired )
+			atLeastOneRuleFire = false;
+
+			for (Rule rule : ruleList) {
+				LinkedList<Entry<String, String>> triggers = new LinkedList<Entry<String, String>>();
+				triggers.addAll(rule.trigger().entrySet());
+
+				boolean fired = iterateTrigger(rule, triggers, context);
+
+				if (fired)
 					atLeastOneRuleFire = true;
 			}
 		}
@@ -70,10 +44,10 @@ public class InMemoryRuleEngine implements RuleEngine {
 		return true;
 	}
 
-	private boolean iterateTrigger( Rule rule, LinkedList<Entry<String, String>> triggers, Context context ) {
-		if( triggers.size() == 0 ) {
-			//System.out.println("Eval rule on " + context.asMap() );
-			return rule.eval( context );
+	private boolean iterateTrigger(Rule rule, LinkedList<Entry<String, String>> triggers, Context context) {
+		if (triggers.size() == 0) {
+			// System.out.println("Eval rule on " + context.asMap() );
+			return rule.eval(context);
 		}
 
 		boolean fired = false;
@@ -81,26 +55,26 @@ public class InMemoryRuleEngine implements RuleEngine {
 		final String alias = current.getKey();
 		final String trigger = current.getValue();
 
-		Object container = context.get( trigger );
+		Object container = context.get(trigger);
 		Collection<Object> args;
-		if( container instanceof Collection ) {
+		if (container instanceof Collection) {
 			args = (Collection<Object>) container;
 		} else {
 			args = new LinkedList<Object>();
-			args.add( container );
+			args.add(container);
 		}
 
 		// try to apply this rule to each element in the trigger list in this context
-		for( Object arg : args ) {
-			//System.out.println("adding alias " + alias + " (value: " + arg + ")" );
-			context.set( alias, arg );
+		for (Object arg : args) {
+			// System.out.println("adding alias " + alias + " (value: " + arg + ")" );
+			context.set(alias, arg);
 
-			boolean res = iterateTrigger( rule, new LinkedList<Entry<String,String>>( triggers ), context );
-			if( res )
+			boolean res = iterateTrigger(rule, new LinkedList<Entry<String, String>>(triggers), context);
+			if (res)
 				fired = true;
-			
-			//System.out.println("removing alias " + alias );
-			context.remove( alias );
+
+			// System.out.println("removing alias " + alias );
+			context.remove(alias);
 		}
 
 		return fired;

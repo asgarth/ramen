@@ -9,23 +9,23 @@ import org.ramen.rule.Rule;
 /** A simple class to demonstrate basic rule usage. */
 public class SimpleRule {
 
-	public static void main( String[] args ) {
-		Person john = new Person( "John", 15 );
-		Person anna = new Person( "Anna", 35 );
+	public static void main(String[] args) {
+		Person john = new Person("John", 15);
+		Person anna = new Person("Anna", 35);
 
 		Context context = new Context();
-		context.add( "person", john );
-		context.add( "person", anna );
+		context.add("person", john);
+		context.add("person", anna);
 
-		Rule testStudent = new MVELRule( "Test Student" ).on( "person p" ).when( "p.age < 18" ).then( "p.student = true" );
+		Rule testStudent = new MVELRule("Test Student").on("person p").when("p.age < 18").then("p.student = true");
 
 		RuleEngine engine = new InMemoryRuleEngine();
-		engine.add( testStudent );
+		engine.add(testStudent);
 
-		engine.eval( context );
+		engine.eval(context);
 
-		System.out.println( john.getName() + ": " + john.isStudent() );
-		System.out.println( anna.getName() + ": " + anna.isStudent() );
+		System.out.println(john.getName() + ": " + john.isStudent());
+		System.out.println(anna.getName() + ": " + anna.isStudent());
 	}
 
 	public static class Person {
@@ -36,7 +36,7 @@ public class SimpleRule {
 
 		private boolean student;
 
-		public Person( String name, int age ) {
+		public Person(String name, int age) {
 			this.name = name;
 			this.age = age;
 			this.student = false;
@@ -46,7 +46,7 @@ public class SimpleRule {
 			return name;
 		}
 
-		public void setName( String name ) {
+		public void setName(String name) {
 			this.name = name;
 		}
 
@@ -54,7 +54,7 @@ public class SimpleRule {
 			return age;
 		}
 
-		public void setAge( int age ) {
+		public void setAge(int age) {
 			this.age = age;
 		}
 
@@ -62,7 +62,7 @@ public class SimpleRule {
 			return student;
 		}
 
-		public void setStudent( boolean student ) {
+		public void setStudent(boolean student) {
 			this.student = student;
 		}
 
