@@ -1,0 +1,7 @@
+# files #
+*.class
+
+# directories #
+/release
+/build
+/bin
