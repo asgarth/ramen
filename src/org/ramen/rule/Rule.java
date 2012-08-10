@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.ramen.Context;
 
-/** Rule interface, containing all methods to configure and evaluate the desired rule logic. */
+/** Rule interface, containing all methods to configure and evaluate the desired logic. */
 public interface Rule {
 
 	/** Returns the rule name.
