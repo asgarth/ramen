@@ -7,11 +7,14 @@ import java.util.Map;
 
 public class Context {
 
-	private Map<String, Object> map;
+	private Map<String, List<Object>> map;
+	
+	private Map<String, Object> alias;
 
 	/** Create a new empty context. */
 	public Context() {
-		map = new HashMap<String, Object>();
+		map = new HashMap<String, List<Object>>();
+		alias = new HashMap<String, Object>();
 	}
 
 	/** Add new objects to the list with the specified label/key.
@@ -22,12 +25,10 @@ public class Context {
 	public void add(final String key, final Object ... values) {
 		// if we already have this key just add the value to the underlying list
 		if (map.containsKey(key)) {
-			Object container = map.get(key);
-			if (container instanceof List) {
-				final List<Object> list = (List<Object>) container;
-				for (Object obj : values)
-					list.add(obj);
-			}
+			final List<Object> list = map.get(key);
+			for (Object obj : values)
+				list.add(obj);
+
 			return;
 		}
 
@@ -35,17 +36,26 @@ public class Context {
 		final List<Object> list = new LinkedList<Object>();
 		for (Object obj : values)
 			list.add(obj);
+		
 		map.put(key, list);
 	}
-
-	/** Set the specified label in the context to contain the input value. Any previous objects stored with that 
-	 * key is overwritten.
+	
+	/** Add new alias with the specified key/value.
 	 * 
-	 * @param key the label of the list that will store the specified value
-	 * @param value the input value to store.
+	 * @param key the alias name
+	 * @param values the objects to add to this context.
 	 */
-	public void set(final String key, final Object value) {
-		map.put(key, value);
+	public void setAlias(final String key, final Object value) {
+		alias.put(key, value);
+	}
+	
+	
+	/** Remove an alias with the specified label.
+	 * 
+	 * @param key the alias name
+	 */
+	public void removeAlias(final String key) {
+		alias.remove(key);
 	}
 
 	/** Remove a key from the current context.
@@ -60,18 +70,42 @@ public class Context {
 	 * where added to this context with the same label.
 	 * 
 	 * @param key the label to retrieve
-	 * @return the object associated with this label.
+	 * @return the object {@link List} associated with this label.
 	 */
-	public Object get(final String key) {
+	public List<Object> get(final String key) {
 		return map.get(key);
 	}
 
+	/** Check if this context contains the specified key.
+	 * 
+	 * @param key the label to check
+	 * @return <code>true</code> if the key is found, <code>false</code> otherwise.
+	 */
+	public boolean contains(final String key) {
+		return map.containsKey(key);
+	}
+
+	/** Return the key/value map representing the aliases currently stored in this context. */
+	public Map<String, Object> aliasMap() {
+		return alias;
+	}
+	
 	/** Return the key/value map representing this context.
 	 * 
-	 * @return a {@link Map} containing all the elements stored inthis context.
+	 * @return a {@link Map} containing all the elements stored in this context.
 	 */
 	public Map<String, Object> asMap() {
-		return map;
+		final Map<String, Object> all = new HashMap<String, Object>();
+		all.putAll(map);
+		all.putAll(alias);
+		return all;
 	}
+
+	@Override
+	public String toString() {
+		return "Context [map=" + map + ", alias=" + alias + "]";
+	}
+	
+	
 
 }

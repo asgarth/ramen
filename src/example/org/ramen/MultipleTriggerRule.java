@@ -1,8 +1,8 @@
 package example.org.ramen;
 
 import org.ramen.Context;
-import org.ramen.RuleEngine;
 import org.ramen.engine.InMemoryRuleEngine;
+import org.ramen.engine.RuleEngine;
 import org.ramen.rule.MVELRule;
 import org.ramen.rule.Rule;
 
@@ -20,15 +20,12 @@ public class MultipleTriggerRule {
 		Rule testStudent = new MVELRule("Test Student")
 				.on("person p1", "person p2")
 				.when("true")
-				.then("System.out.print(p1.name);System.out.print(\" - \");System.out.println(p2.name)");
+				.then("System.out.print(\"FIRED: \" + p1.name);System.out.print(\" - \");System.out.println(p2.name)");
 
 		RuleEngine engine = new InMemoryRuleEngine();
 		engine.add(testStudent);
 
-		engine.eval(context);
-
-		System.out.println(john.getName() + ": " + john.isStudent());
-		System.out.println(anna.getName() + ": " + anna.isStudent());
+		engine.fire(context);
 	}
 
 	public static class Person {

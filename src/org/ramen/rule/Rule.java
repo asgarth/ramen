@@ -18,24 +18,18 @@ public interface Rule {
 	 * Optionally an alias can be defined that can be used to easily refer the target 
 	 * in the rule condition and action evaluation.
 	 * 
-	 * @param target the key of the object in the context on which this rule should be evaluated
+	 * @param trigger the key of the object in the context on which this rule should be evaluated
 	 * @return the rule itself to chain configuration calls.
 	 */
-	public Rule on(String ... target);
+	public Rule on(String ... trigger);
 
-	/** Returns the rule trigger key value.
+	/** Returns the trigger key value.
 	 * 
-	 * @return the specified trigger, <code>null</code> if no trigger was defined.
+	 * @return the specified trigger for this rule.
 	 */
 	public Map<String, String> trigger();
 
-	/** Returns the rule trigger alias value.
-	 * 
-	 * @return the alias defined for the trigger, <code>null</code> if no alias was defined.
-	 */
-	public String alias();
-
-	/** Add the specified <condition> to the set of condition on which the rule will be 
+	/** Initialize with the specified <condition> the set of condition on which the rule will be 
 	 * evaluated in order to be fired.
 	 * 
 	 * @param condition the condition expression to evaluate at runtime.
@@ -65,5 +59,8 @@ public interface Rule {
 	 * @return <code>true</code> if the rule was fired, <code>false</code> otherwise.
 	 */
 	public boolean eval(Context context);
+	
+	/** Reset this rule before evaluation. */
+	public void reset();
 
 }

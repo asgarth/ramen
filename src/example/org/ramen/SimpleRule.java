@@ -1,8 +1,8 @@
 package example.org.ramen;
 
 import org.ramen.Context;
-import org.ramen.RuleEngine;
 import org.ramen.engine.InMemoryRuleEngine;
+import org.ramen.engine.RuleEngine;
 import org.ramen.rule.MVELRule;
 import org.ramen.rule.Rule;
 
@@ -22,7 +22,7 @@ public class SimpleRule {
 		RuleEngine engine = new InMemoryRuleEngine();
 		engine.add(testStudent);
 
-		engine.eval(context);
+		engine.fire(context);
 
 		System.out.println(john.getName() + ": " + john.isStudent());
 		System.out.println(anna.getName() + ": " + anna.isStudent());
@@ -64,6 +64,11 @@ public class SimpleRule {
 
 		public void setStudent(boolean student) {
 			this.student = student;
+		}
+
+		@Override
+		public String toString() {
+			return "'" + name + "'";
 		}
 
 	}

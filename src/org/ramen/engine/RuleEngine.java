@@ -1,5 +1,6 @@
-package org.ramen;
+package org.ramen.engine;
 
+import org.ramen.Context;
 import org.ramen.rule.Rule;
 
 public interface RuleEngine {
@@ -16,6 +17,6 @@ public interface RuleEngine {
 	 * @param context the context containing the object to evaluate
 	 * @return <code>true</code> if the evaluation is completed without errors, <code>false</code> otherwise.
 	 */
-	public boolean eval(Context context);
+	public boolean fire(Context context);
 
 }

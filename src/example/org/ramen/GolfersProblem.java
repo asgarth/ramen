@@ -1,8 +1,8 @@
 package example.org.ramen;
 
 import org.ramen.Context;
-import org.ramen.RuleEngine;
 import org.ramen.engine.InMemoryRuleEngine;
+import org.ramen.engine.RuleEngine;
 import org.ramen.rule.MVELRule;
 import org.ramen.rule.Rule;
 
@@ -60,7 +60,7 @@ public class GolfersProblem {
 		engine.add(bobColorPlaid);
 		engine.add(tomColorNotOrange);
 
-		engine.eval(context);
+		engine.fire(context);
 	}
 
 	public static class Person {
