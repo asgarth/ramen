@@ -98,7 +98,7 @@ public class MVELRule implements Rule {
 			final Set<Activator> activatorSet = new HashSet<Activator>();
 			for (Entry<String, Object> entry: context.aliasMap().entrySet())
 				activatorSet.add(new Activator(entry.getKey(), entry.getValue()));
-			System.out.println("Current activator ser " + activatorSet);
+			System.out.println("Current activator set " + activatorSet);
 			
 			// check if this rule was already fired on this set of object
 			if (activatorList.contains(activatorSet)) {
