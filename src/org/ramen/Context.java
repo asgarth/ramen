@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class Context {
 
@@ -17,27 +18,27 @@ public class Context {
 		alias = new HashMap<String, Object>();
 	}
 
-	/** Add new objects to the list with the specified label/key.
+	/** Add new objects to the set with the specified label/key.
 	 * 
-	 * @param key the label of the list that will store the specified values
+	 * @param key the label of the set that will store the specified values
 	 * @param values the objects to add to this context.
 	 */
 	public void add(final String key, final Object ... values) {
-		// if we already have this key just add the value to the underlying list
+		// if we already have this key just add the value to the underlying set
 		if (map.containsKey(key)) {
-			final List<Object> list = map.get(key);
+			final List<Object> set = map.get(key);
 			for (Object obj : values)
-				list.add(obj);
+				set.add(obj);
 
 			return;
 		}
 
-		// if this is a new key init the object list
-		final List<Object> list = new LinkedList<Object>();
+		// if this is a new key init the object set
+		final List<Object> set = new LinkedList<Object>();
 		for (Object obj : values)
-			list.add(obj);
+			set.add(obj);
 		
-		map.put(key, list);
+		map.put(key, set);
 	}
 	
 	/** Add new alias with the specified key/value.
@@ -66,11 +67,10 @@ public class Context {
 		map.remove(key);
 	}
 
-	/** Get the object associated with the specified label. The result value can be a list if multiple objects 
-	 * where added to this context with the same label.
+	/** Get the set of objects associated with the specified label.
 	 * 
 	 * @param key the label to retrieve
-	 * @return the object {@link List} associated with this label.
+	 * @return the object {@link Set} associated with this label.
 	 */
 	public List<Object> get(final String key) {
 		return map.get(key);

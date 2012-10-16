@@ -17,6 +17,6 @@ public interface RuleEngine {
 	 * @param context the context containing the object to evaluate
 	 * @return <code>true</code> if the evaluation is completed without errors, <code>false</code> otherwise.
 	 */
-	public boolean fire(Context context);
+	public boolean eval(Context context);
 
 }

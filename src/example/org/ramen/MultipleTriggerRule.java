@@ -17,15 +17,15 @@ public class MultipleTriggerRule {
 		context.add("person", john);
 		context.add("person", anna);
 
-		Rule testStudent = new MVELRule("Test Student")
+		Rule testStudent = new MVELRule("Always true")
 				.on("person p1", "person p2")
 				.when("true")
-				.then("System.out.print(\"FIRED: \" + p1.name);System.out.print(\" - \");System.out.println(p2.name)");
+				.then("System.out.println('FIRED: ' + p1.name + ' - ' + p2.name)");
 
 		RuleEngine engine = new InMemoryRuleEngine();
 		engine.add(testStudent);
 
-		engine.fire(context);
+		engine.eval(context);
 	}
 
 	public static class Person {

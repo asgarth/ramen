@@ -1,6 +1,6 @@
 package org.ramen.rule;
 
-import java.util.Map;
+import java.util.List;
 
 import org.ramen.Context;
 
@@ -22,12 +22,6 @@ public interface Rule {
 	 * @return the rule itself to chain configuration calls.
 	 */
 	public Rule on(String ... trigger);
-
-	/** Returns the trigger key value.
-	 * 
-	 * @return the specified trigger for this rule.
-	 */
-	public Map<String, String> trigger();
 
 	/** Initialize with the specified <condition> the set of condition on which the rule will be 
 	 * evaluated in order to be fired.
@@ -53,14 +47,19 @@ public interface Rule {
 	 */
 	public Rule then(String action);
 
-	/** Evaluate the rule against the specified context.
+	/** Evaluate the rule on the specified context.
 	 * 
 	 * @param context the rule context.
-	 * @return <code>true</code> if the rule was fired, <code>false</code> otherwise.
+	 * @return a {@link List} containing the {@link ActivatorSet} on which this rule has fired.
 	 */
-	public boolean eval(Context context);
+	public List<ActivatorSet> eval(Context context);
 	
-	/** Reset this rule before evaluation. */
-	public void reset();
-
+	/** Execute this rule on the specified context, excluding activators in the input {@link ActivatorSet} list.
+	 * 
+	 * @param context the rule context
+	 * @param activators the activator list
+	 * @return a {@link List} containing the {@link ActivatorSet} on which this rule has fired.
+	 */
+	public List<ActivatorSet> eval(Context context, List<ActivatorSet> activators);
+	
 }

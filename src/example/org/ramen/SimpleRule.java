@@ -22,7 +22,7 @@ public class SimpleRule {
 		RuleEngine engine = new InMemoryRuleEngine();
 		engine.add(testStudent);
 
-		engine.fire(context);
+		engine.eval(context);
 
 		System.out.println(john.getName() + ": " + john.isStudent());
 		System.out.println(anna.getName() + ": " + anna.isStudent());

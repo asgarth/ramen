@@ -52,7 +52,7 @@ public class Activator {
 
 	@Override
 	public String toString() {
-		return "Activator [alias=" + alias + ", value=" + value + "]";
+		return "{" + alias + " - " + value + "}";
 	}
 
 }
