@@ -3,27 +3,27 @@ package org.ramen.rule;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class ActivatorSet {
+public class TriggerSet {
 
-	private final Set<Activator> set;
+	private final Set<Trigger> set;
 	
-	public ActivatorSet() {
-		this.set = new LinkedHashSet<Activator>();
+	public TriggerSet() {
+		this.set = new LinkedHashSet<Trigger>();
 	}
 	
-	public ActivatorSet(final Set<Activator> set) {
+	public TriggerSet(final Set<Trigger> set) {
 		this.set = set;
 	}
 
-	public void add(final Activator activator) {
+	public void add(final Trigger activator) {
 		set.add(activator);
 	}
 	
-	public void remove(final Activator activator) {
+	public void remove(final Trigger activator) {
 		set.remove(activator);
 	}
 	
-	public Set<Activator> asSet() {
+	public Set<Trigger> asSet() {
 		return set;
 	}
 
@@ -40,7 +40,7 @@ public class ActivatorSet {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ActivatorSet other = (ActivatorSet) obj;
+		TriggerSet other = (TriggerSet) obj;
 		if (set == null) {
 			if (other.set != null)
 				return false;

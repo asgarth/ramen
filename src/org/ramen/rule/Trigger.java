@@ -1,21 +1,21 @@
 package org.ramen.rule;
 
-public class Activator {
+public class Trigger {
 
 	private final String alias;
 	
 	private final Object value;
 	
-	public Activator(String alias, Object value) {
+	public Trigger(final String alias, final Object value) {
 		this.alias = alias;
 		this.value = value;
 	}
 
-	public String getAlias() {
+	public String alias() {
 		return alias;
 	}
 
-	public Object getValue() {
+	public Object value() {
 		return value;
 	}
 
@@ -36,7 +36,7 @@ public class Activator {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Activator other = (Activator) obj;
+		Trigger other = (Trigger) obj;
 		if (alias == null) {
 			if (other.alias != null)
 				return false;
@@ -52,7 +52,7 @@ public class Activator {
 
 	@Override
 	public String toString() {
-		return "{" + alias + " - " + value + "}";
+		return alias + ": " + value;
 	}
 
 }

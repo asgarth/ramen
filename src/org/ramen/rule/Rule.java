@@ -50,16 +50,16 @@ public interface Rule {
 	/** Evaluate the rule on the specified context.
 	 * 
 	 * @param context the rule context.
-	 * @return a {@link List} containing the {@link ActivatorSet} on which this rule has fired.
+	 * @return a {@link List} containing the {@link TriggerSet} on which this rule has fired.
 	 */
-	public List<ActivatorSet> eval(Context context);
+	public List<TriggerSet> eval(Context context);
 	
-	/** Execute this rule on the specified context, excluding activators in the input {@link ActivatorSet} list.
+	/** Execute this rule on the specified context, excluding activators in the input {@link TriggerSet} list.
 	 * 
 	 * @param context the rule context
 	 * @param activators the activator list
-	 * @return a {@link List} containing the {@link ActivatorSet} on which this rule has fired.
+	 * @return a {@link List} containing the {@link TriggerSet} on which this rule has fired.
 	 */
-	public List<ActivatorSet> eval(Context context, List<ActivatorSet> activators);
+	public List<TriggerSet> eval(Context context, List<TriggerSet> activators);
 	
 }

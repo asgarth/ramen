@@ -95,7 +95,7 @@ public class Context {
 	 * @return a {@link Map} containing all the elements stored in this context.
 	 */
 	public Map<String, Object> asMap() {
-		final Map<String, Object> all = new HashMap<String, Object>();
+		final Map<String, Object> all = new HashMap<String, Object>(map.size() + alias.size());
 		all.putAll(map);
 		all.putAll(alias);
 		return all;

@@ -7,19 +7,20 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.ramen.Context;
-import org.ramen.rule.ActivatorSet;
+import org.ramen.rule.TriggerSet;
 import org.ramen.rule.Rule;
 
 public class InMemoryRuleEngine implements RuleEngine {
 
-	public Map<Rule, List<ActivatorSet>> ruleMap;
+	public Map<Rule, List<TriggerSet>> ruleMap;
 
 	public InMemoryRuleEngine() {
-		ruleMap = new HashMap<Rule, List<ActivatorSet>>();
+		ruleMap = new HashMap<Rule, List<TriggerSet>>();
 	}
 
+	@Override
 	public void add(final Rule rule) {
-		ruleMap.put(rule, new LinkedList<ActivatorSet>());
+		ruleMap.put(rule, new LinkedList<TriggerSet>());
 	}
 
 	@Override
@@ -30,11 +31,11 @@ public class InMemoryRuleEngine implements RuleEngine {
 			//System.out.println("[ENGINE] Executing a loop on all rule");
 			atLeastOneRuleFire = false;
 
-			for (Entry<Rule, List<ActivatorSet>> ruleEntry : ruleMap.entrySet()) {
+			for (Entry<Rule, List<TriggerSet>> ruleEntry : ruleMap.entrySet()) {
 				final Rule rule = ruleEntry.getKey();
-				final List<ActivatorSet> activatorList = ruleEntry.getValue();
+				final List<TriggerSet> activatorList = ruleEntry.getValue();
 				
-				final List<ActivatorSet> outActivatorList = rule.eval(context, activatorList);
+				final List<TriggerSet> outActivatorList = rule.eval(context, activatorList);
 				
 				boolean fired = outActivatorList.size() > activatorList.size();
 				if (fired)
