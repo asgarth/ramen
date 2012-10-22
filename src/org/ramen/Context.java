@@ -9,7 +9,7 @@ import java.util.Set;
 public class Context {
 
 	private Map<String, List<Object>> map;
-	
+
 	private Map<String, Object> alias;
 
 	/** Create a new empty context. */
@@ -37,25 +37,31 @@ public class Context {
 		final List<Object> set = new LinkedList<Object>();
 		for (Object obj : values)
 			set.add(obj);
-		
+
 		map.put(key, set);
 	}
-	
+
 	/** Add new alias with the specified key/value.
 	 * 
 	 * @param key the alias name
 	 * @param values the objects to add to this context.
 	 */
 	public void setAlias(final String key, final Object value) {
+		if (map.containsKey(key))
+			throw new IllegalArgumentException("Conflict between alias definition and objects in the current context: " + alias);
+
 		alias.put(key, value);
 	}
-	
-	
+
+
 	/** Remove an alias with the specified label.
 	 * 
 	 * @param key the alias name
 	 */
 	public void removeAlias(final String key) {
+		if (! map.containsKey(key))
+			throw new IllegalArgumentException("Specified alias not found in the current context: " + alias);
+
 		alias.remove(key);
 	}
 
@@ -89,7 +95,7 @@ public class Context {
 	public Map<String, Object> aliasMap() {
 		return alias;
 	}
-	
+
 	/** Return the key/value map representing this context.
 	 * 
 	 * @return a {@link Map} containing all the elements stored in this context.
@@ -105,7 +111,7 @@ public class Context {
 	public String toString() {
 		return "Context [map=" + map + ", alias=" + alias + "]";
 	}
-	
-	
+
+
 
 }

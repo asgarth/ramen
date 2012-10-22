@@ -72,6 +72,7 @@ public class MVELRule implements Rule {
 	}
 
 	public List<TriggerSet> eval(final Context context, final List<TriggerSet> previousTriggerSetList) {
+		/** check precondition */
 		// check for conflict between trigger alias and context key
 		for (String alias : aliasMap.keySet())
 			if (context.contains(alias))
@@ -83,25 +84,16 @@ public class MVELRule implements Rule {
 				return previousTriggerSetList;
 
 		/** start rule evaluation */
-		//System.out.println("Evaluating rule " + name() + " on " + context);
-
 		// initialize a new set that will store all the triggers used to fire this rule
 		final List<TriggerSet> result = new LinkedList<TriggerSet>(previousTriggerSetList);
 
 		// get all the collection of objects specified as trigger for this rule
-		final Map<String, List<Object>> aliasObjectsMap = new LinkedHashMap<String, List<Object>>(aliasMap.size());
-		for (Entry<String, String> trigger : aliasMap.entrySet())
-			aliasObjectsMap.put(trigger.getKey(), context.get(trigger.getValue()));
+		final Map<String, List<Object>> aliasObjectsMap = buildAliasObjectMap(context);
 
 		// iterate over all possible combination of trigger objects for this rule
 		final CartesianProductIterator possibleTriggerSetIterator = new CartesianProductIterator(aliasObjectsMap.values().toArray(new Iterable[aliasObjectsMap.size()]));
-		for (Object[] currentTriggerSet : possibleTriggerSetIterator) {
-			final TriggerSet triggerSet = new TriggerSet();
-			int i = 0;
-			for (String alias : aliasMap.keySet()) {
-				triggerSet.add(new Trigger(alias, currentTriggerSet[i]));
-				i++;
-			}
+		for (Object[] currentTriggerArray : possibleTriggerSetIterator) {
+			final TriggerSet triggerSet = buildTriggerSet(currentTriggerArray);
 
 			// skip if rule already fired on this trigger set
 			if (result.contains(triggerSet))
@@ -112,14 +104,9 @@ public class MVELRule implements Rule {
 				context.setAlias(t.alias(), t.value());
 
 			// evaluate rule condition
-			boolean fired = true;
-			for (String condition : conditionList) {
-				if (! MVEL.evalToBoolean(condition, context.asMap())) {
-					fired = false;
-					break;
-				}
-			}
+			boolean fired = evalRuleCondition(context.asMap());
 
+			// if all condition are valid -> fire this rule
 			if (fired) {
 				MVEL.eval(action, context.asMap());
 				result.add(triggerSet);
@@ -131,6 +118,36 @@ public class MVELRule implements Rule {
 		}
 
 		return result;
+	}
+
+	/** Build the internal map used to store alias/objects relation. */
+	private Map<String, List<Object>> buildAliasObjectMap(final Context context) {
+		final Map<String, List<Object>> map = new LinkedHashMap<String, List<Object>>(aliasMap.size());
+		for (Entry<String, String> trigger : aliasMap.entrySet())
+			map.put(trigger.getKey(), context.get(trigger.getValue()));
+
+		return map;
+	}
+
+	/** Build a trigger set object from the corresponding alias/trigger combination. */
+	private TriggerSet buildTriggerSet(final Object[] currentTriggerArray) {
+		final TriggerSet triggerSet = new TriggerSet();
+		int i = 0;
+		for (String alias : aliasMap.keySet()) {
+			triggerSet.add(new Trigger(alias, currentTriggerArray[i]));
+			i++;
+		}
+
+		return triggerSet;
+	}
+
+	/** Verify that all the rule conditions are valid on the current context. */
+	private boolean evalRuleCondition(final Map<String, Object> contextMap) {
+		for (String condition : conditionList)
+			if (! MVEL.evalToBoolean(condition, contextMap))
+				return false;
+
+		return true;
 	}
 
 }

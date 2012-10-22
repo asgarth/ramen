@@ -53,7 +53,7 @@ public interface Rule {
 	 * @return a {@link List} containing the {@link TriggerSet} on which this rule has fired.
 	 */
 	public List<TriggerSet> eval(Context context);
-	
+
 	/** Execute this rule on the specified context, excluding activators in the input {@link TriggerSet} list.
 	 * 
 	 * @param context the rule context
@@ -61,5 +61,5 @@ public interface Rule {
 	 * @return a {@link List} containing the {@link TriggerSet} on which this rule has fired.
 	 */
 	public List<TriggerSet> eval(Context context, List<TriggerSet> activators);
-	
+
 }

@@ -11,7 +11,7 @@ public interface RuleEngine {
 	 */
 	public void add(Rule rule);
 
-	
+
 	/** Evaluate the specified {@link Context} on the rules stored in the current engine.
 	 * 
 	 * @param context the context containing the object to evaluate

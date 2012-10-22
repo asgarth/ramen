@@ -46,11 +46,11 @@ public class CartesianProductIterator implements Iterator, Iterable<Object[]> {
 	public boolean hasNext() {
 		if (empty)
 			return false;
-		
+
 		for (int i = 0; i < size; i++)
 			if (iterators[i].hasNext())
 				return true;
-		
+
 		return false;
 	}
 
@@ -82,12 +82,12 @@ public class CartesianProductIterator implements Iterator, Iterable<Object[]> {
 	public Iterator<Object[]> iterator() {
 		return this;
 	}
-	
+
 	/** Gets the next value provided there is one from the iterator at the given index. */
 	private void setNextValue(int index) {
 		final Iterator it = iterators[index];
 		if (it.hasNext())
 			values[index] = it.next();
 	}
-	
+
 }

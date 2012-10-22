@@ -1,7 +1,7 @@
 package example.org.ramen;
 
 import org.ramen.Context;
-import org.ramen.engine.InMemoryRuleEngine;
+import org.ramen.engine.DefaultRuleEngine;
 import org.ramen.engine.RuleEngine;
 import org.ramen.rule.MVELRule;
 import org.ramen.rule.Rule;
@@ -57,7 +57,7 @@ public class GolfersProblem {
 				.when("p.name == 'Tom'").and("($ in availableColors if $ != 'orange').size() == 1")
 				.then("p.color = availableColors.remove(availableColors.indexOf(($ in availableColors if $ != 'orange')[0]))");
 
-		RuleEngine engine = new InMemoryRuleEngine();
+		RuleEngine engine = new DefaultRuleEngine();
 		engine.add(uniquePos);
 		engine.add(uniqueColors);
 		engine.add(joeIsInPos2);

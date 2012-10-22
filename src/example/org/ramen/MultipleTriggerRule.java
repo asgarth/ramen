@@ -1,7 +1,7 @@
 package example.org.ramen;
 
 import org.ramen.Context;
-import org.ramen.engine.InMemoryRuleEngine;
+import org.ramen.engine.DefaultRuleEngine;
 import org.ramen.engine.RuleEngine;
 import org.ramen.rule.MVELRule;
 import org.ramen.rule.Rule;
@@ -22,7 +22,7 @@ public class MultipleTriggerRule {
 				.when("true")
 				.then("System.out.println('FIRED: ' + p1.name + ' - ' + p2.name)");
 
-		RuleEngine engine = new InMemoryRuleEngine();
+		RuleEngine engine = new DefaultRuleEngine();
 		engine.add(testStudent);
 
 		engine.eval(context);

@@ -1,11 +1,12 @@
 package org.ramen.rule;
 
+/** Instance of this object are used to represent the tuple [alias / value] in rule evaluation. */
 public class Trigger {
 
 	private final String alias;
-	
+
 	private final Object value;
-	
+
 	public Trigger(final String alias, final Object value) {
 		this.alias = alias;
 		this.value = value;

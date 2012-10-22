@@ -10,11 +10,11 @@ import org.ramen.Context;
 import org.ramen.rule.TriggerSet;
 import org.ramen.rule.Rule;
 
-public class InMemoryRuleEngine implements RuleEngine {
+public class DefaultRuleEngine implements RuleEngine {
 
-	public Map<Rule, List<TriggerSet>> ruleMap;
+	private final Map<Rule, List<TriggerSet>> ruleMap;
 
-	public InMemoryRuleEngine() {
+	public DefaultRuleEngine() {
 		ruleMap = new HashMap<Rule, List<TriggerSet>>();
 	}
 
@@ -28,24 +28,23 @@ public class InMemoryRuleEngine implements RuleEngine {
 		boolean atLeastOneRuleFire = true;
 
 		while (atLeastOneRuleFire) {
-			//System.out.println("[ENGINE] Executing a loop on all rule");
 			atLeastOneRuleFire = false;
 
 			for (Entry<Rule, List<TriggerSet>> ruleEntry : ruleMap.entrySet()) {
 				final Rule rule = ruleEntry.getKey();
-				final List<TriggerSet> activatorList = ruleEntry.getValue();
-				
-				final List<TriggerSet> outActivatorList = rule.eval(context, activatorList);
-				
-				boolean fired = outActivatorList.size() > activatorList.size();
+
+				final List<TriggerSet> prevActivatorList = ruleEntry.getValue();
+				final List<TriggerSet> newActivatorList = rule.eval(context, prevActivatorList);
+
+				boolean fired = newActivatorList.size() > prevActivatorList.size();
 				if (fired)
 					atLeastOneRuleFire = true;
-				
-				ruleMap.put(rule, outActivatorList);
+
+				ruleMap.put(rule, newActivatorList);
 			}
 		}
 
 		return true;
 	}
-	
+
 }

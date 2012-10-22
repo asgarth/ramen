@@ -3,26 +3,23 @@ package org.ramen.rule;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+/** Represent the set of trigger on which a rule is evaluated.  */
 public class TriggerSet {
 
 	private final Set<Trigger> set;
-	
+
 	public TriggerSet() {
 		this.set = new LinkedHashSet<Trigger>();
-	}
-	
-	public TriggerSet(final Set<Trigger> set) {
-		this.set = set;
 	}
 
 	public void add(final Trigger activator) {
 		set.add(activator);
 	}
-	
+
 	public void remove(final Trigger activator) {
 		set.remove(activator);
 	}
-	
+
 	public Set<Trigger> asSet() {
 		return set;
 	}
@@ -53,5 +50,5 @@ public class TriggerSet {
 	public String toString() {
 		return "ActivatorSet: " + set;
 	}
-	
+
 }
