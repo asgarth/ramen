@@ -1,7 +1,7 @@
 package example.org.ramen;
 
 import org.ramen.Context;
-import org.ramen.engine.DefaultRuleEngine;
+import org.ramen.engine.MVELRuleEngine;
 import org.ramen.engine.RuleEngine;
 import org.ramen.rule.MVELRule;
 import org.ramen.rule.Rule;
@@ -19,7 +19,7 @@ public class SimpleRule {
 
 		Rule testStudent = new MVELRule("Test Student").on("person p").when("p.age < 18").then("p.student = true");
 
-		RuleEngine engine = new DefaultRuleEngine();
+		RuleEngine engine = new MVELRuleEngine();
 		engine.add(testStudent);
 
 		engine.eval(context);

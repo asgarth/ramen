@@ -11,7 +11,7 @@ public class Context {
 	private Map<String, List<Object>> map;
 
 	private Map<String, Object> aliasMap;
-
+	
 	/** Create a new empty context. */
 	public Context() {
 		map = new HashMap<String, List<Object>>();
@@ -47,7 +47,7 @@ public class Context {
 	 * @param values the objects to add to this context.
 	 */
 	public void setAlias(final String key, final Object value) {
-		if (aliasMap.containsKey(key))
+		if (aliasMap.containsKey(key) || map.containsKey(key))
 			throw new IllegalArgumentException("Conflict between alias definition and objects in the current context: " + key);
 
 		aliasMap.put(key, value);

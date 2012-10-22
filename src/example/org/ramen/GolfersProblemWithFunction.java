@@ -3,10 +3,11 @@ package example.org.ramen;
 import org.ramen.Context;
 import org.ramen.engine.MVELRuleEngine;
 import org.ramen.engine.RuleEngine;
+import org.ramen.function.MVELFunction;
 import org.ramen.rule.MVELRule;
 import org.ramen.rule.Rule;
 
-public class GolfersProblem {
+public class GolfersProblemWithFunction {
 
 	public static void main(String[] args) {
 		Golfer tom = new Golfer("Tom");
@@ -20,44 +21,44 @@ public class GolfersProblem {
 		context.add("availablePos", 1, 2, 3, 4);
 		context.add("availableColors", "blue", "plaid", "red", "orange");
 
+		RuleEngine engine = new MVELRuleEngine();
+		engine.def(new MVELFunction("def assignPos(golfer, pos) { golfer.pos = availablePos.remove(availablePos.indexOf(pos)) }"));
+		engine.def(new MVELFunction("def assignColor(golfer, color) { golfer.color = availableColors.remove(availableColors.indexOf(color)) }"));
+		
 		Rule uniquePos = new MVELRule("Unique positions").on("golfer g").when("availablePos.size() == 1").and("g.pos == 0")
-				.then("g.pos = availablePos.remove(0)");
+				.then("assignPos(g, availablePos[0])");
 
-		Rule uniqueColors = new MVELRule("Unique colors").on("golfer g")
-				.when("availableColors.size() == 1").and("g.color == null")
-				.then("g.color = availableColors.remove(0)");
+		Rule uniqueColors = new MVELRule("Unique colors").on("golfer g").when("availableColors.size() == 1").and("g.color == null")
+				.then("assignColor(g, availableColors[0])");
 
-		Rule joeIsInPos2 = new MVELRule("Joe is in position 2")
-				.on("golfer g")
-				.when("g.name == 'Joe'")
-				.then("availablePos.remove(availablePos.indexOf(2)); g.pos = 2");
+		Rule joeIsInPos2 = new MVELRule("Joe is in position 2").on("golfer g").when("g.name == 'Joe'")
+				.then("assignPos(g, 2)");
 
 		Rule personToFredRightIsBlue = new MVELRule("Person to Fred's immediate right is wearing blue pants")
 				.on("golfer g1", "golfer g2")
 				.when("g1.name == 'Fred'").and("g2.pos == (g1.pos + 1)")
-				.then("availableColors.remove('blue'); g2.color = 'blue'");
+				.then("assignColor(g2, 'blue')");
 
 		Rule fredNotPos4 = new MVELRule("Fred isn't in position 4")
 				.on("golfer g")
 				.when("g.name == 'Fred'").and("($ in availablePos if $ != 4).size() == 1")
-				.then("g.pos = availablePos.remove(availablePos.indexOf(($ in availablePos if $ != 4)[0]))");
+				.then("assignPos(g, ($ in availablePos if $ != 4)[0])");
 
 		Rule tomNotInPos1or4 = new MVELRule("Tom isn't in position 1 or 4")
 				.on("golfer g")
 				.when("g.name == 'Tom'").and("($ in availablePos if $ != 4 && $ != 1).size() == 1")
-				.then("g.pos = availablePos.remove(availablePos.indexOf(($ in availablePos if $ != 4 && $ != 1)[0]))");
+				.then("assignPos(g, ($ in availablePos if $ != 4 && $ != 1)[0])");
 
 		Rule bobColorPlaid = new MVELRule("Bob is wearing plaid pants")
 				.on("golfer g")
 				.when("g.name == 'Bob'")
-				.then("availableColors.remove('plaid'); g.color = 'plaid'");
+				.then("assignColor(g, 'plaid')");
 
 		Rule tomColorNotOrange = new MVELRule("Tom isn't wearing orange pants")
 				.on("golfer g")
 				.when("g.name == 'Tom'").and("($ in availableColors if $ != 'orange').size() == 1")
-				.then("g.color = availableColors.remove(availableColors.indexOf(($ in availableColors if $ != 'orange')[0]))");
+				.then("assignColor(g, ($ in availableColors if $ != 'orange')[0])");
 
-		RuleEngine engine = new MVELRuleEngine();
 		engine.add(uniquePos);
 		engine.add(uniqueColors);
 		engine.add(joeIsInPos2);
