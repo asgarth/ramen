@@ -10,12 +10,12 @@ public class Context {
 
 	private Map<String, List<Object>> map;
 
-	private Map<String, Object> alias;
+	private Map<String, Object> aliasMap;
 
 	/** Create a new empty context. */
 	public Context() {
 		map = new HashMap<String, List<Object>>();
-		alias = new HashMap<String, Object>();
+		aliasMap = new HashMap<String, Object>();
 	}
 
 	/** Add new objects to the set with the specified label/key.
@@ -47,10 +47,10 @@ public class Context {
 	 * @param values the objects to add to this context.
 	 */
 	public void setAlias(final String key, final Object value) {
-		if (map.containsKey(key))
-			throw new IllegalArgumentException("Conflict between alias definition and objects in the current context: " + alias);
+		if (aliasMap.containsKey(key))
+			throw new IllegalArgumentException("Conflict between alias definition and objects in the current context: " + key);
 
-		alias.put(key, value);
+		aliasMap.put(key, value);
 	}
 
 
@@ -59,10 +59,10 @@ public class Context {
 	 * @param key the alias name
 	 */
 	public void removeAlias(final String key) {
-		if (! map.containsKey(key))
-			throw new IllegalArgumentException("Specified alias not found in the current context: " + alias);
+		if (! aliasMap.containsKey(key))
+			throw new IllegalArgumentException("Specified alias not found in the current context: " + key);
 
-		alias.remove(key);
+		aliasMap.remove(key);
 	}
 
 	/** Remove a key from the current context.
@@ -93,7 +93,7 @@ public class Context {
 
 	/** Return the key/value map representing the aliases currently stored in this context. */
 	public Map<String, Object> aliasMap() {
-		return alias;
+		return aliasMap;
 	}
 
 	/** Return the key/value map representing this context.
@@ -101,15 +101,15 @@ public class Context {
 	 * @return a {@link Map} containing all the elements stored in this context.
 	 */
 	public Map<String, Object> asMap() {
-		final Map<String, Object> all = new HashMap<String, Object>(map.size() + alias.size());
+		final Map<String, Object> all = new HashMap<String, Object>(map.size() + aliasMap.size());
 		all.putAll(map);
-		all.putAll(alias);
+		all.putAll(aliasMap);
 		return all;
 	}
 
 	@Override
 	public String toString() {
-		return "Context [map=" + map + ", alias=" + alias + "]";
+		return "Context [map=" + map + ", alias=" + aliasMap + "]";
 	}
 
 
