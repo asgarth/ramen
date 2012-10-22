@@ -40,8 +40,8 @@
 
 		<zip destfile="${projname}-${version}.zip">
 			<zipfileset file="${projname}-${version}.jar" />
-			<zipfileset file="LICENSE.md" />
 			<zipfileset dir="${lib}" prefix="lib" />
+			<zipfileset file="LICENSE.md" />
 		</zip>
 	</target>
 

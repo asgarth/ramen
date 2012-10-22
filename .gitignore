@@ -1,6 +1,7 @@
 # files #
 *.class
 *.jar
+*.zip
 
 # directories #
 /release
