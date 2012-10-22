@@ -10,17 +10,14 @@ import org.ramen.rule.Rule;
 public class MultipleTriggerRule {
 
 	public static void main(String[] args) {
-		Person john = new Person("John", 15);
-		Person anna = new Person("Anna", 35);
-
 		Context context = new Context();
-		context.add("person", john);
-		context.add("person", anna);
+		context.add("person", new Person("John", 15));
+		context.add("person", new Person("Anna", 35));
 
 		Rule testStudent = new MVELRule("Always true")
-				.on("person p1", "person p2")
-				.when("true")
-				.then("System.out.println('FIRED: ' + p1.name + ' - ' + p2.name)");
+			.on("person p1", "person p2")
+			.when("true")
+			.then("System.out.println('FIRED: ' + p1.name + ' - ' + p2.name)");
 
 		RuleEngine engine = new DefaultRuleEngine();
 		engine.add(testStudent);
@@ -66,8 +63,9 @@ public class MultipleTriggerRule {
 			this.student = student;
 		}
 
+		@Override
 		public String toString() {
-			return name;
+			return "Person [name=" + name + ", age=" + age + ", student=" + student + "]";
 		}
 
 	}

@@ -9,53 +9,53 @@ import org.ramen.rule.Rule;
 public class GolfersProblem {
 
 	public static void main(String[] args) {
-		Person tom = new Person("Tom");
-		Person joe = new Person("Joe");
-		Person fred = new Person("Fred");
-		Person bob = new Person("Bob");
+		Golfer tom = new Golfer("Tom");
+		Golfer joe = new Golfer("Joe");
+		Golfer fred = new Golfer("Fred");
+		Golfer bob = new Golfer("Bob");
 
 		Context context = new Context();
-		context.add("person", tom, joe, fred, bob);
+		context.add("golfer", tom, joe, fred, bob);
 
 		context.add("availablePos", 1, 2, 3, 4);
 		context.add("availableColors", "blue", "plaid", "red", "orange");
 
-		Rule uniquePos = new MVELRule("Unique positions").on("person p").when("availablePos.size() == 1").and("p.pos == 0")
-				.then("p.pos = availablePos.remove(0)");
-		
-		Rule uniqueColors = new MVELRule("Unique colors").on("person p")
-				.when("availableColors.size() == 1").and("p.color == null")
-				.then("p.color = availableColors.remove(0)");
-		
+		Rule uniquePos = new MVELRule("Unique positions").on("golfer g").when("availablePos.size() == 1").and("g.pos == 0")
+				.then("g.pos = availablePos.remove(0)");
+
+		Rule uniqueColors = new MVELRule("Unique colors").on("golfer g")
+				.when("availableColors.size() == 1").and("g.color == null")
+				.then("g.color = availableColors.remove(0)");
+
 		Rule joeIsInPos2 = new MVELRule("Joe is in position 2")
-				.on("person p")
-				.when("p.name == 'Joe'")
-				.then("availablePos.remove(availablePos.indexOf(2)); p.pos = 2");
-		
+				.on("golfer g")
+				.when("g.name == 'Joe'")
+				.then("availablePos.remove(availablePos.indexOf(2)); g.pos = 2");
+
 		Rule personToFredRightIsBlue = new MVELRule("Person to Fred's immediate right is wearing blue pants")
-				.on("person p1", "person p2")
-				.when("p1.name == 'Fred'").and("p2.pos == (p1.pos + 1)")
-				.then("availableColors.remove('blue'); p2.color = 'blue'");
-		
+				.on("golfer g1", "golfer g2")
+				.when("g1.name == 'Fred'").and("g2.pos == (g1.pos + 1)")
+				.then("availableColors.remove('blue'); g2.color = 'blue'");
+
 		Rule fredNotPos4 = new MVELRule("Fred isn't in position 4")
-				.on("person p")
-				.when("p.name == 'Fred'").and("($ in availablePos if $ != 4).size() == 1")
-				.then("p.pos = availablePos.remove(availablePos.indexOf(($ in availablePos if $ != 4)[0]))");
-		
+				.on("golfer g")
+				.when("g.name == 'Fred'").and("($ in availablePos if $ != 4).size() == 1")
+				.then("g.pos = availablePos.remove(availablePos.indexOf(($ in availablePos if $ != 4)[0]))");
+
 		Rule tomNotInPos1or4 = new MVELRule("Tom isn't in position 1 or 4")
-				.on("person p")
-				.when("p.name == 'Tom'").and("($ in availablePos if $ != 4 && $ != 1).size() == 1")
-				.then("p.pos = availablePos.remove(availablePos.indexOf(($ in availablePos if $ != 4 && $ != 1)[0]))");
-		
+				.on("golfer g")
+				.when("g.name == 'Tom'").and("($ in availablePos if $ != 4 && $ != 1).size() == 1")
+				.then("g.pos = availablePos.remove(availablePos.indexOf(($ in availablePos if $ != 4 && $ != 1)[0]))");
+
 		Rule bobColorPlaid = new MVELRule("Bob is wearing plaid pants")
-				.on("person p")
-				.when("p.name == 'Bob'")
-				.then("availableColors.remove('plaid'); p.color = 'plaid'; System.out.println('Bob color = ' + p.color)");
-		
+				.on("golfer g")
+				.when("g.name == 'Bob'")
+				.then("availableColors.remove('plaid'); g.color = 'plaid'");
+
 		Rule tomColorNotOrange = new MVELRule("Tom isn't wearing orange pants")
-				.on("person p")
-				.when("p.name == 'Tom'").and("($ in availableColors if $ != 'orange').size() == 1")
-				.then("p.color = availableColors.remove(availableColors.indexOf(($ in availableColors if $ != 'orange')[0]))");
+				.on("golfer g")
+				.when("g.name == 'Tom'").and("($ in availableColors if $ != 'orange').size() == 1")
+				.then("g.color = availableColors.remove(availableColors.indexOf(($ in availableColors if $ != 'orange')[0]))");
 
 		RuleEngine engine = new DefaultRuleEngine();
 		engine.add(uniquePos);
@@ -68,16 +68,15 @@ public class GolfersProblem {
 		engine.add(tomColorNotOrange);
 
 		engine.eval(context);
-		
-		System.out.println("-----------------------------------");
+
 		System.out.println(tom);
 		System.out.println(joe);
 		System.out.println(fred);
 		System.out.println(bob);
-		
+
 	}
 
-	public static class Person {
+	public static class Golfer {
 
 		private String name;
 
@@ -85,7 +84,7 @@ public class GolfersProblem {
 
 		private String color;
 
-		public Person(String name) {
+		public Golfer(String name) {
 			this.name = name;
 		}
 
@@ -115,7 +114,7 @@ public class GolfersProblem {
 
 		@Override
 		public String toString() {
-			return "Person [name=" + name + ", pos=" + pos + ", color=" + color + "]";
+			return "Golfer [name=" + name + ", pos=" + pos + ", color=" + color + "]";
 		}
 
 	}

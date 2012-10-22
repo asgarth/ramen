@@ -24,8 +24,8 @@ public class SimpleRule {
 
 		engine.eval(context);
 
-		System.out.println(john.getName() + ": " + john.isStudent());
-		System.out.println(anna.getName() + ": " + anna.isStudent());
+		System.out.println(john);
+		System.out.println(anna);
 	}
 
 	public static class Person {
@@ -68,7 +68,7 @@ public class SimpleRule {
 
 		@Override
 		public String toString() {
-			return "'" + name + "'";
+			return "Person [name=" + name + ", age=" + age + ", student=" + student + "]";
 		}
 
 	}
