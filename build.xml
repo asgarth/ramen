@@ -2,7 +2,7 @@
 
 	<property name="name" value="ramen" />
 	<property name="projname" value="ramen" />
-	<property name="version" value="0.1" />
+	<property name="version" value="0.8" />
 
 	<property name="src" location="src" />
 	<property name="lib" location="lib" />
@@ -33,6 +33,16 @@
 				<attribute name="Implementation-Version" value="${version}" />
 			</manifest>
 		</jar>
+	</target>
+
+	<target name="release" depends="jar">
+		<delete file="${projname}-${version}.zip"/>
+
+		<zip destfile="${projname}-${version}.zip">
+			<zipfileset file="${projname}-${version}.jar" />
+			<zipfileset file="LICENSE.md" />
+			<zipfileset dir="${lib}" prefix="lib" />
+		</zip>
 	</target>
 
 	<target name="clean">
