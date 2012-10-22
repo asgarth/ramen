@@ -1,7 +1,7 @@
 # Ramen Rule
 Ramen is a simple and elegant _rule engine_ for Java and Scala designed to be easy to use and fun to work with.
 
-## Downloading
+## Download
 
 You can download the latest release and nightly build from http://github.com/asgarth/ramen/downloads.
 
