@@ -1,15 +1,15 @@
-# Ramen Rule
-Ramen is a simple and elegant _rule engine_ for Java and Scala designed to be easy to use and fun to work with.
+# Ramen
+Ramen is a simple, powerfull _rule engine_ for Java and Scala. It is designed to be easy to use and to integrate into new or existing application.
 
 ## Download
 
-You can download the latest release and nightly build from http://github.com/asgarth/ramen/downloads.
+You can download the latest release from http://github.com/asgarth/ramen/downloads.
 
-The only dependencies is the MVEL expression language (the MVEL jar file is already included in the archive but the latest release can be download from http://mvel.codehaus.org/Downloading+MVEL).
+Ramen rules use the MVEL expression language to define both rule _conditions_ and _actions_. The MVEL jar file is already included in the archive but the latest release can be downloaded from http://mvel.codehaus.org/Downloading+MVEL.
 
 ## Getting started
 
-An example of using some rules in java code:
+The following snippet give a fast overview of the basic usage to define some rules in java code:
 
 ``` java
 Person john = new Person("John", 15);
@@ -23,6 +23,45 @@ Rule testStudent = new MVELRule("Test Student").on("person p").when("p.age < 18"
 
 RuleEngine engine = new MVELRuleEngine();
 engine.add(testStudent);
+
+engine.eval(context);
+
+System.out.println(john);
+System.out.println(anna);
+```
+
+### Define rule on multiple values
+
+``` java
+Context context = new Context();
+context.add("person", new Person("John", 15));
+context.add("person", new Person("Anna", 35));
+
+Rule testStudent = new MVELRule("Always true")
+    .on("person p1", "person p2")
+    .when("true")
+    .then("System.out.println('FIRED: ' + p1.name + ' - ' + p2.name)");
+
+RuleEngine engine = new MVELRuleEngine();
+engine.add(testStudent);
+
+engine.eval(context);
+```
+
+### Define some functions
+
+``` java
+Person john = new Person("John", 15);
+Person anna = new Person("Anna", 35);
+
+Context context = new Context();
+context.add("person", john);
+context.add("person", anna);
+
+RuleEngine engine = new MVELRuleEngine();
+
+engine.def(new MVELFunction("def setStudent(x) { x.student = true }"));
+engine.add(new MVELRule("Test Student").on("person p").when("p.age < 18").then("setStudent(p)"));
 
 engine.eval(context);
 
