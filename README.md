@@ -3,9 +3,9 @@ Ramen is a simple, powerfull _rule engine_ for Java and Scala. It is designed to
 
 ## Download
 
-You can download the latest release from http://github.com/asgarth/ramen/downloads.
+You can download the latest release from https://github.com/asgarth/ramen/releases.
 
-Ramen rules use the MVEL expression language to define both rule _conditions_ and _actions_. The MVEL jar file is already included in the archive but the latest release can be downloaded from http://mvel.codehaus.org/Downloading+MVEL.
+Ramen rules use the MVEL (https://github.com/mvel/mvel) expression language to define both rule _conditions_ and _actions_.
 
 ## Getting started
 
